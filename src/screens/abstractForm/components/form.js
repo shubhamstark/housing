@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { TextField, Select, MenuItem, InputLabel, Divider, Typography, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios"
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 
 let dataTemplate = {
     abstractTitle: "",
@@ -30,12 +31,26 @@ const authorInitialState = {
     affiliation: ""
 }
 
+
+const FormStatus = ({ status }) => {
+    return (
+        <Typography variant="h2" component="h2" style={{ marginTop: 20 }}>
+            {status}
+        </Typography>
+    )
+}
+
 const Form = () => {
 
 
     const [secondaryAuthor, setSecondaryAuthor] = useState(authorInitialState)
     const [formData, setFormData] = useState(dataTemplate)
     const [file, setFile] = useState()
+    const [uploading, setUploading] = useState(false)
+    const [failed, setFailed] = useState(false)
+    const [submitted, setSubmitted] = useState(false)
+
+
 
     console.log(formData)
 
@@ -63,8 +78,8 @@ const Form = () => {
         form.append('state', formData.stateOrProvince)
         form.append('country', formData.country)
         form.append('zip_code', formData.zipOrPostal)
-        form.append('phone_number',"917999068606")
-        form.append('university', "university")
+        form.append('phone_number', formData.leadAuthorPhone)
+        form.append('university', formData.nameOfUniversityCorporation)
         console.log(JSON.stringify(formData.secondaryAuthors))
         form.append('secondary_authors', JSON.stringify(formData.secondaryAuthors))
 
@@ -75,11 +90,30 @@ const Form = () => {
                 'content-type': 'multipart/form-data',
             },
         };
+        setUploading(true)
         axios.post(url, form, config).then((response) => {
             console.log(response.data);
+            if (response.status === 200) {
+                setUploading(false)
+                setSubmitted(true)
+            } else {
+                setFailed(true)
+            }
         });
 
     }
+
+    if (failed) {
+        console.log("a")
+        return <FormStatus status="Submission Failed" />
+    }
+
+    if (submitted) {
+        console.log("b")
+
+        return <FormStatus status="Form Submitted" />
+    }
+
 
     return (
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
@@ -198,8 +232,10 @@ const Form = () => {
                             type="file"
                             hidden
                             onChange={fileHandler}
+                            accept=".pdf, .doc, .docx"
                         />
                     </Button>
+                    <p style={{marginLeft:20}}>{file?.name}</p>
                 </div>
 
             </div >
@@ -356,7 +392,14 @@ const Form = () => {
 
                 </div>
             </div>
-            <Button variant="contained" style={{ width: 200 }} onClick={handleSubmit}>Submit Abstract</Button>
+            <Button
+                variant="contained"
+                style={{ width: 200 }}
+                onClick={handleSubmit}
+                startIcon={uploading && <HourglassBottomIcon />}
+            >
+                Submit Abstract
+            </Button>
 
 
         </div >
