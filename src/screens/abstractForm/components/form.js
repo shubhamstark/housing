@@ -266,7 +266,7 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, leadAuthorPhone: e.target.value }) }}
+                        onChange={(e) => { setFormData({ ...formData, leadAuthorEmail: e.target.value }) }}
                     />
                     <TextField
                         id="standard-basic"
@@ -274,7 +274,7 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, leadAuthorEmail: e.target.value }) }}
+                        onChange={(e) => { setFormData({ ...formData, leadAuthorPhone: e.target.value }) }}
                     />
 
                     <TextField
@@ -376,10 +376,10 @@ const Form = () => {
                                 return (
                                     <div key={index} style={{ display: "flex", flexDirection: "row", height: 40, marginLeft: 10, alignItems: "center", backgroundColor: index % 2 == 0 ? "whitesmoke" : "white", borderRadius: 10, padding: 10 }}>
                                         <Typography variant="p" component="p" style={{ ...styles.secondaryAuthorRow }} fontSize={18}  >
-                                            {item.firstName}
+                                            {item.first_name}
                                         </Typography>
                                         <Typography variant="p" component="p" style={{ ...styles.secondaryAuthorRow }} fontSize={18} >
-                                            {item.lastName}
+                                            {item.last_name}
                                         </Typography>
                                         <Typography variant="p" component="p" style={{ ...styles.secondaryAuthorRow }} fontSize={18} >
                                             {item.affiliation}
