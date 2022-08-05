@@ -4,6 +4,9 @@ import { TextField, Select, MenuItem, InputLabel, Divider, Typography, Button } 
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios"
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
+import { Country, State, City } from 'country-state-city';
+import CountryStateCity from './countryCity';
+import { validateEmail, validatePhoneNumber, x } from './formValidations';
 
 let dataTemplate = {
     abstractTitle: "",
@@ -43,12 +46,35 @@ const FormStatus = ({ status }) => {
 const Form = () => {
 
 
+
     const [secondaryAuthor, setSecondaryAuthor] = useState(authorInitialState)
     const [formData, setFormData] = useState(dataTemplate)
     const [file, setFile] = useState()
     const [uploading, setUploading] = useState(false)
     const [failed, setFailed] = useState(false)
     const [submitted, setSubmitted] = useState(false)
+    // errors
+    const [titleError, setTitleError] = useState("")
+    const [firstNameError, setFirstNameError] = useState("")
+    const [lastNameError, setLastNameError] = useState("")
+    const [emailError, setEmailError] = useState("")
+    const [phoneError, setPhoneError] = useState("")
+    const [universityError, setUniversityError] = useState("")
+    const [streetAddressError, serStreetAddressError] = useState("")
+    const [postalCodeError, setPostalCodeError] = useState("")
+
+    const [sFNError, seSFNError] = useState("")
+    const [sLNError, setSLNError] = useState("")
+    const [sAFFError, setSAFFError] = useState("")
+
+    const [emptyForm, setEmptyForm] = useState("")
+
+
+
+
+
+
+
 
 
 
@@ -62,6 +88,18 @@ const Form = () => {
         console.log("setting file")
         setFile(event.target.files[0])
     }
+
+    const placeHandler = (e, type) => {
+        if (type == "country") {
+            setFormData({ ...formData, country: e.target.value })
+        } else if (type == "state") {
+            setFormData({ ...formData, stateOrProvince: e.target.value })
+        } else if (type == "city") {
+            setFormData({ ...formData, city: e.target.value })
+        }
+    }
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -115,6 +153,9 @@ const Form = () => {
     }
 
 
+
+
+
     return (
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
             <TextField
@@ -123,7 +164,19 @@ const Form = () => {
                 variant="standard"
                 style={styles.textField}
                 required
-                onChange={(e) => { setFormData({ ...formData, abstractTitle: e.target.value }) }}
+                onChange={(e) => {
+                    if (e.target.value.length > 150) {
+                        setTitleError("Title should be less that 150 characters.")
+                    } else if (e.target.value.length == 0) {
+                        setTitleError("Missing Required field")
+                    } else {
+                        setTitleError("")
+                    }
+
+                    setFormData({ ...formData, abstractTitle: e.target.value })
+                }}
+                error={titleError != ""}
+                helperText={titleError}
             />
 
             <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", marginTop: 40 }} required>
@@ -136,6 +189,7 @@ const Form = () => {
                     label="Theme"
                     style={{ marginInline: 20 }}
                 >
+
                     <MenuItem
                         value="Alternative Approaches in Peptide Administration"
                         onChange={themeHandler}
@@ -200,6 +254,8 @@ const Form = () => {
                     label="Affiliation"
                     style={{ marginInline: 20 }}
                 >
+
+
                     <MenuItem
                         value="University"
                         onChange={affiliationHandler}>
@@ -235,14 +291,14 @@ const Form = () => {
                             accept=".pdf, .doc, .docx"
                         />
                     </Button>
-                    <p style={{marginLeft:20}}>{file?.name}</p>
+                    <p style={{ marginLeft: 20 }}>{file?.name}</p>
                 </div>
 
             </div >
 
             <div style={{ display: "flex", flexDirection: "row" }}>
 
-                <div style={{ display: "flex", flex: .4, flexDirection: "column", padding: 20 }}>
+                <div style={{ display: "flex", flex: .4, flexDirection: "column" }}>
 
                     <TextField
                         id="standard-basic"
@@ -250,7 +306,18 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, leadAuthorFirstName: e.target.value }) }}
+                        onChange={(e) => {
+                            if (e.target.value.length > 150) {
+                                setFirstNameError("Name should be less that 50 characters.")
+                            } else if (e.target.value.length == 0) {
+                                setFirstNameError("Missing Required field")
+                            } else {
+                                setFirstNameError("")
+                            }
+                            setFormData({ ...formData, leadAuthorFirstName: e.target.value })
+                        }}
+                        error={firstNameError != ""}
+                        helperText={firstNameError}
                     />
                     <TextField
                         id="standard-basic"
@@ -258,7 +325,18 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, leadAuthorLastName: e.target.value }) }}
+                        onChange={(e) => {
+                            if (e.target.value.length > 150) {
+                                setLastNameError("Last name should be less that 50 characters.")
+                            } else if (e.target.value.length == 0) {
+                                setLastNameError("Missing Required field")
+                            } else {
+                                setLastNameError("")
+                            }
+                            setFormData({ ...formData, leadAuthorLastName: e.target.value })
+                        }}
+                        error={lastNameError}
+                        helperText={lastNameError}
                     />
                     <TextField
                         id="standard-basic"
@@ -266,7 +344,18 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, leadAuthorEmail: e.target.value }) }}
+                        onChange={(e) => {
+                            if (!validateEmail(e.target.value)) {
+                                setEmailError("Invalid Email Address")
+                            } else if (e.target.value.length == 0) {
+                                setEmailError("Missing Required field")
+                            } else {
+                                setEmailError("")
+                            }
+                            setFormData({ ...formData, leadAuthorEmail: e.target.value })
+                        }}
+                        error={emailError != ""}
+                        helperText={emailError}
                     />
                     <TextField
                         id="standard-basic"
@@ -274,7 +363,19 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, leadAuthorPhone: e.target.value }) }}
+                        onChange={(e) => {
+                            if (!validatePhoneNumber(e.target.value)) {
+                                setPhoneError("Invalid Phone")
+                            } else if (e.target.value.length == 0) {
+                                setPhoneError("Missing Required field")
+                            } else {
+                                setPhoneError("")
+                            }
+
+                            setFormData({ ...formData, leadAuthorPhone: e.target.value })
+                        }}
+                        error={phoneError != ""}
+                        helperText={phoneError}
                     />
 
                     <TextField
@@ -283,7 +384,16 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, nameOfUniversityCorporation: e.target.value }) }}
+                        onChange={(e) => {
+                            if (e.target.value.length == 0) {
+                                setUniversityError("Missing Required field")
+                            } else {
+                                setUniversityError("")
+                            }
+                            setFormData({ ...formData, nameOfUniversityCorporation: e.target.value })
+                        }}
+                        error={universityError != ""}
+                        helperText={universityError}
                     />
                     <TextField
                         id="standard-basic"
@@ -291,39 +401,38 @@ const Form = () => {
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, streetAddress: e.target.value }) }}
+                        onChange={(e) => {
+                            if (e.target.value.length == 0) {
+                                serStreetAddressError("Missing Required field")
+                            } else {
+                                serStreetAddressError("")
+                            }
+                            setFormData({ ...formData, streetAddress: e.target.value })
+                        }}
+                        error={streetAddressError != ""}
+                        helperText={streetAddressError}
                     />
-                    <TextField
-                        id="standard-basic"
-                        label="City"
-                        variant="standard"
-                        style={styles.textField}
-                        required
-                        onChange={(e) => { setFormData({ ...formData, city: e.target.value }) }}
-                    />
-                    <TextField
-                        id="standard-basic"
-                        label="State or Province"
-                        variant="standard"
-                        style={styles.textField}
-                        required
-                        onChange={(e) => { setFormData({ ...formData, stateOrProvince: e.target.value }) }}
-                    />
-                    <TextField
-                        id="standard-basic"
-                        label="Country"
-                        variant="standard"
-                        style={styles.textField}
-                        required
-                        onChange={(e) => { setFormData({ ...formData, country: e.target.value }) }}
-                    />
+
+
+                    <CountryStateCity formData={formData} handler={placeHandler} />
+
                     <TextField
                         id="standard-basic"
                         label="Zip or Postal Code"
                         variant="standard"
                         style={styles.textField}
                         required
-                        onChange={(e) => { setFormData({ ...formData, zipOrPostal: e.target.value }) }}
+                        onChange={(e) => {
+                            if (e.target.value.length == 0) {
+                                setPostalCodeError("Missing Required field")
+                            } else {
+                                setPostalCodeError("")
+                            }
+                            setFormData({ ...formData, zipOrPostal: e.target.value })
+                        }}
+                        error={postalCodeError != ""}
+                        helperText={setPostalCodeError}
+
                     />
                 </div>
 
@@ -341,7 +450,17 @@ const Form = () => {
                             style={{ margin: 10 }}
                             required
                             value={secondaryAuthor.first_name}
-                            onChange={(e) => { setSecondaryAuthor({ ...secondaryAuthor, first_name: e.target.value }) }}
+                            onChange={(e) => {
+                                if (e.target.value.length == 0) {
+                                    seSFNError("Missing Required field")
+                                } else {
+                                    seSFNError("")
+                                }
+
+                                setSecondaryAuthor({ ...secondaryAuthor, first_name: e.target.value })
+                            }}
+                            error={sFNError != ""}
+                            helperText={sFNError}
                         />
                         <TextField
                             id="standard-basic"
@@ -350,7 +469,17 @@ const Form = () => {
                             style={{ margin: 10 }}
                             required
                             value={secondaryAuthor.last_name}
-                            onChange={(e) => { setSecondaryAuthor({ ...secondaryAuthor, last_name: e.target.value }) }}
+                            onChange={(e) => {
+                                if (e.target.value.length == 0) {
+                                    setSLNError("Missing Required field")
+                                } else {
+                                    setSLNError("")
+                                }
+
+                                setSecondaryAuthor({ ...secondaryAuthor, last_name: e.target.value })
+                            }}
+                            error={sLNError != ""}
+                            helperText={sLNError}
                         />
                         <TextField
                             id="standard-basic"
@@ -359,7 +488,17 @@ const Form = () => {
                             value={secondaryAuthor.affiliation}
                             style={{ margin: 10 }}
                             required
-                            onChange={(e) => { setSecondaryAuthor({ ...secondaryAuthor, affiliation: e.target.value }) }}
+                            onChange={(e) => {
+                                if (e.target.value.length == 0) {
+                                    setSAFFError("Missing Required field")
+                                } else {
+                                    setSAFFError("")
+                                }
+
+                                setSecondaryAuthor({ ...secondaryAuthor, affiliation: e.target.value })
+                            }}
+                            error={sAFFError != ""}
+                            helperText={setSAFFError}
                         />
                         <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {
                             setFormData({ ...formData, secondaryAuthors: [...formData.secondaryAuthors, secondaryAuthor] })
@@ -392,10 +531,36 @@ const Form = () => {
 
                 </div>
             </div>
+            {
+                emptyForm && <p>Form is empty</p>
+            }
             <Button
                 variant="contained"
                 style={{ width: 200 }}
-                onClick={handleSubmit}
+                onClick={
+                    (e) => {
+                        if (JSON.stringify(dataTemplate) == JSON.stringify(formData)) {
+                            setEmptyForm(true)
+                        }
+
+                        else if (titleError == "" &
+                            firstNameError == "" &
+                            lastNameError == "" &
+                            emailError == "" &
+                            phoneError == "" &
+                            universityError == "" &
+                            streetAddressError == "" &
+                            postalCodeError == "" &
+                            sFNError == "" &
+                            sLNError == "" &
+                            sAFFError == ""
+                        ) {
+                            handleSubmit(e)
+                        } else {
+                            console.log("form error")
+                        }
+                    }
+                }
                 startIcon={uploading && <HourglassBottomIcon />}
             >
                 Submit Abstract
