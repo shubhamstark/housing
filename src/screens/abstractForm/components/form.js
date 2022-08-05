@@ -103,7 +103,7 @@ const Form = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const url = 'http://3.132.8.245:5001/submit_data';
+        const url = 'https://servertestabctestserver.tk:5001/submit_data';
         const form = new FormData();
         form.append('title', formData.abstractTitle)
         form.append('theme', formData.chooseATheme)
