@@ -532,8 +532,24 @@ const Form = () => {
                 </div>
             </div>
             {
-                emptyForm && <p>Form is empty</p>
+                emptyForm && <p style={{color :"red"}}>Form is empty</p>
             }
+            {
+                formData.affiliation === "" && <p style={{color :"red"}}>Please Select Affiliation</p>
+            }
+            {
+                formData.chooseATheme === "" && <p style={{color :"red"}}>Please Select Theme</p>
+            }
+            {
+                formData.country === "" && <p style={{color :"red"}}>Please Select Country</p>
+            }
+            {
+                formData.state === "" && <p style={{color :"red"}}>Please Select State</p>
+            }
+            {
+                formData.city === "" && <p style={{color :"red"}}>Please Select City</p>
+            }
+
             <Button
                 variant="contained"
                 style={{ width: 200 }}
