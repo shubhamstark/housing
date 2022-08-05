@@ -68,6 +68,7 @@ const Form = () => {
     const [sAFFError, setSAFFError] = useState("")
 
     const [emptyForm, setEmptyForm] = useState("")
+    const [submitClicked,setSubmitClicked] = useState(false)
 
 
 
@@ -532,22 +533,22 @@ const Form = () => {
                 </div>
             </div>
             {
-                emptyForm && <p style={{color :"red"}}>Form is empty</p>
+                submitClicked && emptyForm && <p style={{color :"red"}}>Form is empty</p>
             }
             {
-                formData.affiliation === "" && <p style={{color :"red"}}>Please Select Affiliation</p>
+                submitClicked && formData.affiliation === "" && <p style={{color :"red"}}>Please Select Affiliation</p>
             }
             {
-                formData.chooseATheme === "" && <p style={{color :"red"}}>Please Select Theme</p>
+                submitClicked && formData.chooseATheme === "" && <p style={{color :"red"}}>Please Select Theme</p>
             }
             {
-                formData.country === "" && <p style={{color :"red"}}>Please Select Country</p>
+                submitClicked && formData.country === "" && <p style={{color :"red"}}>Please Select Country</p>
             }
             {
-                formData.state === "" && <p style={{color :"red"}}>Please Select State</p>
+                submitClicked && formData.state === "" && <p style={{color :"red"}}>Please Select State</p>
             }
             {
-                formData.city === "" && <p style={{color :"red"}}>Please Select City</p>
+                submitClicked && formData.city === "" && <p style={{color :"red"}}>Please Select City</p>
             }
 
             <Button
@@ -555,6 +556,7 @@ const Form = () => {
                 style={{ width: 200 }}
                 onClick={
                     (e) => {
+                        setSubmitClicked(true)
                         if (JSON.stringify(dataTemplate) == JSON.stringify(formData)) {
                             setEmptyForm(true)
                         }
