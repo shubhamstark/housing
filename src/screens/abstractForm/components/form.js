@@ -65,9 +65,7 @@ const Form = ({ setFormSubmitted }) => {
     const [streetAddressError, serStreetAddressError] = useState("NA")
     const [postalCodeError, setPostalCodeError] = useState("NA")
 
-    const [sFNError, seSFNError] = useState("NA")
-    const [sLNError, setSLNError] = useState("NA")
-    const [sAFFError, setSAFFError] = useState("NA")
+
 
     const [emptyForm, setEmptyForm] = useState("")
     const [submitClicked, setSubmitClicked] = useState(false)
@@ -87,6 +85,21 @@ const Form = ({ setFormSubmitted }) => {
 
     }
 
+    const secondaryAuthorErrorMSG = (secondaryAuthor) => {
+
+        if (secondaryAuthor.first_name == "") {
+            return "Missing First Name"
+        }
+        if (secondaryAuthor.last_name == "") {
+            return "Missing Last Name"
+        }
+        if (secondaryAuthor.affiliation == "") {
+            return "Missing Affiliation"
+        }
+        return ""
+
+    }
+
 
 
 
@@ -97,6 +110,8 @@ const Form = ({ setFormSubmitted }) => {
     const themeHandler = (e) => { setFormData({ ...formData, chooseATheme: e.target.value }) }
 
     const affiliationHandler = (e) => { setFormData({ ...formData, affiliation: e.target.value }) }
+
+    const secondaryAuthonAffiliationHandler = (e) => setSecondaryAuthor({ ...secondaryAuthor, affiliation: e.target.value })
 
     const fileHandler = (event) => {
         console.log("setting file")
@@ -456,7 +471,7 @@ const Form = ({ setFormSubmitted }) => {
                     <Typography variant="p" component="h2" style={styles.textField}>
                         Secondary Authors, if any
                     </Typography>
-                    <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
+                    <div style={{ display: "flex", flexDirection: "row" }}>
                         <TextField
                             id="standard-basic"
                             label="First Name"
@@ -479,23 +494,51 @@ const Form = ({ setFormSubmitted }) => {
                             }}
 
                         />
-                        <TextField
-                            id="standard-basic"
-                            label="Affiliation"
-                            variant="standard"
-                            value={secondaryAuthor.affiliation}
-                            style={{ margin: 10 }}
-                            onChange={(e) => {
-                                setSecondaryAuthor({ ...secondaryAuthor, affiliation: e.target.value })
-                            }}
 
-                        />
-                        <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {
-                            setFormData({ ...formData, secondaryAuthors: [...formData.secondaryAuthors, secondaryAuthor] })
-                            setSecondaryAuthor(authorInitialState)
-                        }}>
-                            Add
-                        </Button>
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+
+                            <InputLabel id="affiliation">Affiliation</InputLabel>
+                            <Select
+                                labelId="affiliation"
+                                id="demo-simple-select-standard"
+                                value={secondaryAuthor.affiliation}
+                                onChange={secondaryAuthonAffiliationHandler}
+                                label="Affiliation"
+                                style={{ marginInline: 20 }}
+                            >
+
+
+                                <MenuItem
+                                    value="University"
+                                    onChange={secondaryAuthonAffiliationHandler}
+                                >
+                                    University
+                                </MenuItem>
+                                <MenuItem
+                                    value="Laboratory"
+                                    onChange={secondaryAuthonAffiliationHandler}
+                                >
+                                    Laboratory
+                                </MenuItem>
+                                <MenuItem
+                                    value="Corporate"
+                                // onChange={affiliationHandler}
+                                >
+                                    Corporate
+                                </MenuItem>
+
+                            </Select >
+                            <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {
+                                if (secondaryAuthorErrorMSG(secondaryAuthor) === "") {
+                                    setFormData({ ...formData, secondaryAuthors: [...formData.secondaryAuthors, secondaryAuthor] })
+                                    setSecondaryAuthor(authorInitialState)
+
+                                }
+                            }}>
+                                Add
+                            </Button>
+
+                        </div>
 
                     </div>
                     <div style={{ marginTop: 15 }}>
@@ -551,10 +594,7 @@ const Form = ({ setFormSubmitted }) => {
                             "emailError", emailError,
                             "phoneError", phoneError
                         )
-                        if (JSON.stringify(dataTemplate) == JSON.stringify(formData)) {
-                            setEmptyForm(true)
-                        }
-                        else if (titleError == "" &
+                        if (titleError == "" &
                             firstNameError == "" &
                             lastNameError == "" &
                             emailError == "" &
