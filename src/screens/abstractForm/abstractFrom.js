@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Description } from './components/description'
 import Form from './components/form'
 
 export const AbstractForm = () => {
+  const [formSubmitted,setFormSubmitted]=useState(false)
   return (
     <div style={{marginInline:50}}>
       <div style={{ display: "flex", flex: 1, justifyContent: "center" }}>
@@ -13,8 +14,11 @@ export const AbstractForm = () => {
           style={{ height: 250 }}
         />
       </div>
-      <Description />
-      <Form />
+      {
+        !formSubmitted && <Description />
+      }
+      
+      <Form setFormSubmitted={setFormSubmitted}/>
     </div>
   )
 }

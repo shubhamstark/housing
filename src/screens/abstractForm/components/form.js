@@ -43,7 +43,7 @@ const FormStatus = ({ status }) => {
     )
 }
 
-const Form = () => {
+const Form = ({setFormSubmitted}) => {
 
 
 
@@ -135,6 +135,7 @@ const Form = () => {
             if (response.status === 200) {
                 setUploading(false)
                 setSubmitted(true)
+                setFormSubmitted(true)
             } else {
                 setFailed(true)
             }
