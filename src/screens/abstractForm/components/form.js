@@ -43,43 +43,56 @@ const FormStatus = ({ status }) => {
     )
 }
 
-const Form = ({setFormSubmitted}) => {
+
+
+const Form = ({ setFormSubmitted }) => {
 
 
 
     const [secondaryAuthor, setSecondaryAuthor] = useState(authorInitialState)
     const [formData, setFormData] = useState(dataTemplate)
-    const [file, setFile] = useState()
+    const [file, setFile] = useState(null)
     const [uploading, setUploading] = useState(false)
     const [failed, setFailed] = useState(false)
     const [submitted, setSubmitted] = useState(false)
     // errors
-    const [titleError, setTitleError] = useState("")
-    const [firstNameError, setFirstNameError] = useState("")
-    const [lastNameError, setLastNameError] = useState("")
-    const [emailError, setEmailError] = useState("")
-    const [phoneError, setPhoneError] = useState("")
-    const [universityError, setUniversityError] = useState("")
-    const [streetAddressError, serStreetAddressError] = useState("")
-    const [postalCodeError, setPostalCodeError] = useState("")
+    const [titleError, setTitleError] = useState("NA")
+    const [firstNameError, setFirstNameError] = useState("NA")
+    const [lastNameError, setLastNameError] = useState("NA")
+    const [emailError, setEmailError] = useState("NA")
+    const [phoneError, setPhoneError] = useState("NA")
+    const [universityError, setUniversityError] = useState("NA")
+    const [streetAddressError, serStreetAddressError] = useState("NA")
+    const [postalCodeError, setPostalCodeError] = useState("NA")
 
-    const [sFNError, seSFNError] = useState("")
-    const [sLNError, setSLNError] = useState("")
-    const [sAFFError, setSAFFError] = useState("")
+    const [sFNError, seSFNError] = useState("NA")
+    const [sLNError, setSLNError] = useState("NA")
+    const [sAFFError, setSAFFError] = useState("NA")
 
     const [emptyForm, setEmptyForm] = useState("")
-    const [submitClicked,setSubmitClicked] = useState(false)
+    const [submitClicked, setSubmitClicked] = useState(false)
+
+
+
+
+    const getErrorMessage = (message, required = true) => {
+        if (message == "NA") {
+            if (submitClicked & required) {
+                return "Missing Required Field"
+            } else {
+                return ""
+            }
+        }
+        return message
+
+    }
 
 
 
 
 
 
-
-
-
-
-    console.log(formData)
+    // console.log(formData)
 
     const themeHandler = (e) => { setFormData({ ...formData, chooseATheme: e.target.value }) }
 
@@ -144,13 +157,10 @@ const Form = ({setFormSubmitted}) => {
     }
 
     if (failed) {
-        console.log("a")
         return <FormStatus status="Submission Failed" />
     }
 
     if (submitted) {
-        console.log("b")
-
         return <FormStatus status="Form Submitted" />
     }
 
@@ -167,18 +177,19 @@ const Form = ({setFormSubmitted}) => {
                 style={styles.textField}
                 required
                 onChange={(e) => {
-                    if (e.target.value.length > 150) {
+                    const msg = e.target.value
+                    if (msg.length > 150) {
                         setTitleError("Title should be less that 150 characters.")
-                    } else if (e.target.value.length == 0) {
+                    } else if (msg.length == 0) {
                         setTitleError("Missing Required field")
                     } else {
                         setTitleError("")
                     }
 
-                    setFormData({ ...formData, abstractTitle: e.target.value })
+                    setFormData({ ...formData, abstractTitle: msg })
                 }}
-                error={titleError != ""}
-                helperText={titleError}
+                error={getErrorMessage(titleError) != ""}
+                helperText={getErrorMessage(titleError)}
             />
 
             <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", marginTop: 40 }} required>
@@ -294,6 +305,7 @@ const Form = ({setFormSubmitted}) => {
                         />
                     </Button>
                     <p style={{ marginLeft: 20 }}>{file?.name}</p>
+                    {(submitClicked && file == null) && <p style={{ color: "red" }}>Please add a file</p>}
                 </div>
 
             </div >
@@ -318,8 +330,8 @@ const Form = ({setFormSubmitted}) => {
                             }
                             setFormData({ ...formData, leadAuthorFirstName: e.target.value })
                         }}
-                        error={firstNameError != ""}
-                        helperText={firstNameError}
+                        error={getErrorMessage(firstNameError) != ""}
+                        helperText={getErrorMessage(firstNameError)}
                     />
                     <TextField
                         id="standard-basic"
@@ -337,8 +349,8 @@ const Form = ({setFormSubmitted}) => {
                             }
                             setFormData({ ...formData, leadAuthorLastName: e.target.value })
                         }}
-                        error={lastNameError}
-                        helperText={lastNameError}
+                        error={getErrorMessage(lastNameError)}
+                        helperText={getErrorMessage(lastNameError)}
                     />
                     <TextField
                         id="standard-basic"
@@ -356,8 +368,8 @@ const Form = ({setFormSubmitted}) => {
                             }
                             setFormData({ ...formData, leadAuthorEmail: e.target.value })
                         }}
-                        error={emailError != ""}
-                        helperText={emailError}
+                        error={getErrorMessage(emailError) != ""}
+                        helperText={getErrorMessage(emailError)}
                     />
                     <TextField
                         id="standard-basic"
@@ -376,8 +388,8 @@ const Form = ({setFormSubmitted}) => {
 
                             setFormData({ ...formData, leadAuthorPhone: e.target.value })
                         }}
-                        error={phoneError != ""}
-                        helperText={phoneError}
+                        error={getErrorMessage(phoneError) != ""}
+                        helperText={getErrorMessage(phoneError)}
                     />
 
                     <TextField
@@ -394,8 +406,8 @@ const Form = ({setFormSubmitted}) => {
                             }
                             setFormData({ ...formData, nameOfUniversityCorporation: e.target.value })
                         }}
-                        error={universityError != ""}
-                        helperText={universityError}
+                        error={getErrorMessage(universityError) != ""}
+                        helperText={getErrorMessage(universityError)}
                     />
                     <TextField
                         id="standard-basic"
@@ -411,8 +423,8 @@ const Form = ({setFormSubmitted}) => {
                             }
                             setFormData({ ...formData, streetAddress: e.target.value })
                         }}
-                        error={streetAddressError != ""}
-                        helperText={streetAddressError}
+                        error={getErrorMessage(streetAddressError) != ""}
+                        helperText={getErrorMessage(streetAddressError)}
                     />
 
 
@@ -432,8 +444,8 @@ const Form = ({setFormSubmitted}) => {
                             }
                             setFormData({ ...formData, zipOrPostal: e.target.value })
                         }}
-                        error={postalCodeError != ""}
-                        helperText={setPostalCodeError}
+                        error={getErrorMessage(postalCodeError) != ""}
+                        helperText={getErrorMessage(setPostalCodeError)}
 
                     />
                 </div>
@@ -450,38 +462,22 @@ const Form = ({setFormSubmitted}) => {
                             label="First Name"
                             variant="standard"
                             style={{ margin: 10 }}
-                            required
                             value={secondaryAuthor.first_name}
                             onChange={(e) => {
-                                if (e.target.value.length == 0) {
-                                    seSFNError("Missing Required field")
-                                } else {
-                                    seSFNError("")
-                                }
-
                                 setSecondaryAuthor({ ...secondaryAuthor, first_name: e.target.value })
                             }}
-                            error={sFNError != ""}
-                            helperText={sFNError}
+
                         />
                         <TextField
                             id="standard-basic"
                             label="Last Name"
                             variant="standard"
                             style={{ margin: 10 }}
-                            required
                             value={secondaryAuthor.last_name}
                             onChange={(e) => {
-                                if (e.target.value.length == 0) {
-                                    setSLNError("Missing Required field")
-                                } else {
-                                    setSLNError("")
-                                }
-
                                 setSecondaryAuthor({ ...secondaryAuthor, last_name: e.target.value })
                             }}
-                            error={sLNError != ""}
-                            helperText={sLNError}
+
                         />
                         <TextField
                             id="standard-basic"
@@ -489,18 +485,10 @@ const Form = ({setFormSubmitted}) => {
                             variant="standard"
                             value={secondaryAuthor.affiliation}
                             style={{ margin: 10 }}
-                            required
                             onChange={(e) => {
-                                if (e.target.value.length == 0) {
-                                    setSAFFError("Missing Required field")
-                                } else {
-                                    setSAFFError("")
-                                }
-
                                 setSecondaryAuthor({ ...secondaryAuthor, affiliation: e.target.value })
                             }}
-                            error={sAFFError != ""}
-                            helperText={setSAFFError}
+
                         />
                         <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {
                             setFormData({ ...formData, secondaryAuthors: [...formData.secondaryAuthors, secondaryAuthor] })
@@ -534,23 +522,21 @@ const Form = ({setFormSubmitted}) => {
                 </div>
             </div>
             {
-                submitClicked && emptyForm && <p style={{color :"red"}}>Form is empty</p>
+                submitClicked && emptyForm && <p style={{ color: "red" }}>Form is empty</p>
             }
             {
-                submitClicked && formData.affiliation === "" && <p style={{color :"red"}}>Please Select Affiliation</p>
+                submitClicked && formData.affiliation === "" && <p style={{ color: "red" }}>Please Select Affiliation</p>
             }
             {
-                submitClicked && formData.chooseATheme === "" && <p style={{color :"red"}}>Please Select Theme</p>
+                submitClicked && formData.chooseATheme === "" && <p style={{ color: "red" }}>Please Select Theme</p>
             }
             {
-                submitClicked && formData.country === "" && <p style={{color :"red"}}>Please Select Country</p>
+                submitClicked && formData.country === "" && <p style={{ color: "red" }}>Please Select Country</p>
             }
             {
-                submitClicked && formData.state === "" && <p style={{color :"red"}}>Please Select State</p>
+                submitClicked && formData.state === "" && <p style={{ color: "red" }}>Please Select State</p>
             }
-            {
-                submitClicked && formData.city === "" && <p style={{color :"red"}}>Please Select City</p>
-            }
+
 
             <Button
                 variant="contained"
@@ -558,10 +544,16 @@ const Form = ({setFormSubmitted}) => {
                 onClick={
                     (e) => {
                         setSubmitClicked(true)
+                        console.log(
+                            "titleError", titleError,
+                            "firstNameError", firstNameError,
+                            "lastNameError", lastNameError,
+                            "emailError", emailError,
+                            "phoneError", phoneError
+                        )
                         if (JSON.stringify(dataTemplate) == JSON.stringify(formData)) {
                             setEmptyForm(true)
                         }
-
                         else if (titleError == "" &
                             firstNameError == "" &
                             lastNameError == "" &
@@ -569,13 +561,11 @@ const Form = ({setFormSubmitted}) => {
                             phoneError == "" &
                             universityError == "" &
                             streetAddressError == "" &
-                            postalCodeError == "" &
-                            sFNError == "" &
-                            sLNError == "" &
-                            sAFFError == ""
+                            postalCodeError == ""
                         ) {
                             handleSubmit(e)
-                        } else {
+                        }
+                        else {
                             console.log("form error")
                         }
                     }
