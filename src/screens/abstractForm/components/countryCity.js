@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { Select, MenuItem, InputLabel } from "@mui/material"
 
 import { Country, State, City } from 'country-state-city';
+import Box from '@mui/material/Box';
+
+import FormControl from '@mui/material/FormControl';
 
 
 function CountryStateCity({ formData, handler }) {
@@ -12,81 +15,96 @@ function CountryStateCity({ formData, handler }) {
 
 
     return (
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop:25 }}>
-            <InputLabel id="demo-simple-select-standard-label" >Country</InputLabel>
-            <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={formData.country}
-                onChange={(e) => {
-                    handler(e, "country")
-                }}
-                label="Country"
-                style={{ marginInline: 20 }}
-            >
-                {Country.getAllCountries().map((item, index) => {
-                    return (
-                        <MenuItem
-                            value={item.name}
-                            onClick={() => { setCountryCode(item.isoCode) }}
-                        >
-                            {item.name}
-                        </MenuItem>
-                    )
-                })}
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: 25 }}>
+            <Box style={{marginRight:20}} sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
 
-            </Select>
+                    <InputLabel id="country" >Country</InputLabel>
+                    <Select
+                        labelId="country"
+                        id="demo-simple-select-standard"
+                        value={formData.country}
+                        onChange={(e) => {
+                            handler(e, "country")
+                        }}
+                        label="Country"
+                        style={{ height: 40 }}
+                    >
+                        {Country.getAllCountries().map((item, index) => {
+                            return (
+                                <MenuItem
+                                    value={item.name}
+                                    onClick={() => { setCountryCode(item.isoCode) }}
+                                >
+                                    {item.name}
+                                </MenuItem>
+                            )
+                        })}
+
+                    </Select>
+                </FormControl>
+            </Box>
 
             {/* state */}
-            <InputLabel id="demo-simple-select-standard-label" >State</InputLabel>
-            <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={formData.stateOrProvince}
-                onChange={(e) => {
-                    handler(e, "state")
-                }}
-                label="State"
-                style={{ marginInline: 20 }}
-            >
-                {State.getStatesOfCountry(countryCode).map((item, index) => {
-                    // console.log(item)
-                    return (
-                        <MenuItem
-                            value={item.name}
-                            onClick={() => { setStateCode(item.isoCode) }}
-                        >
-                            {item.name}
-                        </MenuItem>
-                    )
-                })}
+            <Box style={{marginRight:20}} sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="state" >State</InputLabel>
+                    <Select
+                        labelId="state"
+                        id="demo-simple-select-standard"
+                        value={formData.stateOrProvince}
+                        onChange={(e) => {
+                            handler(e, "state")
+                        }}
+                        label="State"
+                        style={{ height: 40 }}
+                    >
+                        {State.getStatesOfCountry(countryCode).map((item, index) => {
+                            // console.log(item)
+                            return (
+                                <MenuItem
+                                    value={item.name}
+                                    onClick={() => { setStateCode(item.isoCode) }}
+                                >
+                                    {item.name}
+                                </MenuItem>
+                            )
+                        })}
 
-            </Select>
+                    </Select>
+                </FormControl>
+            </Box>
 
             {/* city*/}
 
-            <InputLabel id="demo-simple-select-standard-label" >City</InputLabel>
-            <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={formData.city}
-                onChange={(e) => {
-                    handler(e, "city")
-                }}
-                label="City"
-                style={{ marginInline: 20 }}
-            >
-                {City.getCitiesOfState(countryCode, stateCode).map((item, index) => {
-                    return (
-                        <MenuItem
-                            value={item.name}
-                        >
-                            {item.name}
-                        </MenuItem>
-                    )
-                })}
+            <Box style={{marginRight:20}} sx={{ minWidth: 120 }}>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-standard-label" >City</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={formData.city}
+                        onChange={(e) => {
+                            handler(e, "city")
+                        }}
+                        label="City"
+                        style={{ height: 40 }}
 
-            </Select>
+                    >
+                        {City.getCitiesOfState(countryCode, stateCode).map((item, index) => {
+                            return (
+                                <MenuItem
+                                    value={item.name}
+                                >
+                                    {item.name}
+                                </MenuItem>
+                            )
+                        })}
+
+                    </Select>
+                </FormControl>
+            </Box>
+
         </div>
     )
 }

@@ -7,7 +7,9 @@ import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import { Country, State, City } from 'country-state-city';
 import CountryStateCity from './countryCity';
 import { validateEmail, validatePhoneNumber, x } from './formValidations';
+import Box from '@mui/material/Box';
 
+import FormControl from '@mui/material/FormControl';
 let dataTemplate = {
     abstractTitle: "",
     chooseATheme: "",
@@ -208,108 +210,117 @@ const Form = ({ setFormSubmitted }) => {
             />
 
             <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", marginTop: 40 }} required>
-                <InputLabel id="demo-simple-select-standard-label" >Theme</InputLabel>
-                <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    value={formData.chooseATheme}
-                    onChange={themeHandler}
-                    label="Theme"
-                    style={{ marginInline: 20 }}
-                >
+                <Box style={{ marginRight: 20 }} sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-standard-label" >Theme</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={formData.chooseATheme}
+                            onChange={themeHandler}
+                            label="Theme"
+                            style={{ height: 40 }}
+                        >
 
-                    <MenuItem
-                        value="Alternative Approaches in Peptide Administration"
-                        onChange={themeHandler}
-                    >
-                        Alternative Approaches in Peptide Administration
-                    </MenuItem>
-                    <MenuItem
-                        value="Commercial Synthesis & Formulation of Peptides"
-                        onChange={themeHandler}
-                    >
-                        Commercial Synthesis & Formulation of Peptides
-                    </MenuItem>
-                    <MenuItem
-                        value="Complementary Pharmacology of Peptides, Proteins & Conventional Drugs"
-                        onChange={themeHandler}
-                    >
-                        Complementary Pharmacology of Peptides, Proteins & Conventional Drugs
-                    </MenuItem>
-                    <MenuItem
-                        value="Peptide Immunogenicity & Toxicology"
-                        onChange={themeHandler}
-                    >
-                        Peptide Immunogenicity & Toxicology
-                    </MenuItem>
-                    <MenuItem
-                        value="Peptide Synthetic Methodologies"
-                        onChange={themeHandler}
-                    >
-                        Peptide Synthetic Methodologies
-                    </MenuItem>
-                    <MenuItem
-                        value="Peptide Therapeutics & Related Bioactive Molecules"
-                        onChange={themeHandler}
-                    >
-                        Peptide Therapeutics & Related Bioactive Molecules
-                    </MenuItem>
-                    <MenuItem
-                        value="Peptides as Diagnostics, Probes & Biomarkers"
-                        onChange={themeHandler}
-                    >
-                        Peptides as Diagnostics, Probes & Biomarkers
-                    </MenuItem>
-                    <MenuItem
-                        value="Peptidomics & Peptide Discovery"
-                        onChange={themeHandler}
-                    >
-                        Peptidomics & Peptide Discovery
-                    </MenuItem>
-                    <MenuItem
-                        value="Pharmacokinetics, Biodistribution & Cellular Transport"
-                        onChange={themeHandler}
-                    >
-                        Pharmacokinetics, Biodistribution & Cellular Transport
-                    </MenuItem>
-                </Select>
-                <InputLabel id="affiliation">Affiliation</InputLabel>
-                <Select
-                    labelId="affiliation"
-                    id="demo-simple-select-standard"
-                    value={formData.affiliation}
-                    onChange={affiliationHandler}
-                    label="Affiliation"
-                    style={{ marginInline: 20 }}
-                >
+                            <MenuItem
+                                value="Alternative Approaches in Peptide Administration"
+                                onChange={themeHandler}
+                            >
+                                Alternative Approaches in Peptide Administration
+                            </MenuItem>
+                            <MenuItem
+                                value="Commercial Synthesis & Formulation of Peptides"
+                                onChange={themeHandler}
+                            >
+                                Commercial Synthesis & Formulation of Peptides
+                            </MenuItem>
+                            <MenuItem
+                                value="Complementary Pharmacology of Peptides, Proteins & Conventional Drugs"
+                                onChange={themeHandler}
+                            >
+                                Complementary Pharmacology of Peptides, Proteins & Conventional Drugs
+                            </MenuItem>
+                            <MenuItem
+                                value="Peptide Immunogenicity & Toxicology"
+                                onChange={themeHandler}
+                            >
+                                Peptide Immunogenicity & Toxicology
+                            </MenuItem>
+                            <MenuItem
+                                value="Peptide Synthetic Methodologies"
+                                onChange={themeHandler}
+                            >
+                                Peptide Synthetic Methodologies
+                            </MenuItem>
+                            <MenuItem
+                                value="Peptide Therapeutics & Related Bioactive Molecules"
+                                onChange={themeHandler}
+                            >
+                                Peptide Therapeutics & Related Bioactive Molecules
+                            </MenuItem>
+                            <MenuItem
+                                value="Peptides as Diagnostics, Probes & Biomarkers"
+                                onChange={themeHandler}
+                            >
+                                Peptides as Diagnostics, Probes & Biomarkers
+                            </MenuItem>
+                            <MenuItem
+                                value="Peptidomics & Peptide Discovery"
+                                onChange={themeHandler}
+                            >
+                                Peptidomics & Peptide Discovery
+                            </MenuItem>
+                            <MenuItem
+                                value="Pharmacokinetics, Biodistribution & Cellular Transport"
+                                onChange={themeHandler}
+                            >
+                                Pharmacokinetics, Biodistribution & Cellular Transport
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box style={{ marginRight: 20 }} sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="affiliation">Affiliation</InputLabel>
+                        <Select
+                            labelId="affiliation"
+                            id="demo-simple-select-standard"
+                            value={formData.affiliation}
+                            onChange={affiliationHandler}
+                            label="Affiliation"
+                            style={{ height: 40 }}
+                        >
 
 
-                    <MenuItem
-                        value="University"
-                        onChange={affiliationHandler}>
-                        University
-                    </MenuItem>
-                    <MenuItem
-                        value="Laboratory"
-                        onChange={affiliationHandler}>
-                        Laboratory
-                    </MenuItem>
-                    <MenuItem
-                        value="Corporate"
-                        onChange={affiliationHandler}>
-                        Corporate
-                    </MenuItem>
+                            <MenuItem
+                                value="University"
+                                onChange={affiliationHandler}>
+                                University
+                            </MenuItem>
+                            <MenuItem
+                                value="Laboratory"
+                                onChange={affiliationHandler}>
+                                Laboratory
+                            </MenuItem>
+                            <MenuItem
+                                value="Corporate"
+                                onChange={affiliationHandler}>
+                                Corporate
+                            </MenuItem>
 
-                </Select >
+                        </Select >
+                    </FormControl>
+                </Box>
 
                 <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                    <Typography variant="p" component="h2" style={{ fontSize: 20, marginRight: 20 }}>
+                    <Typography variant="p" component="h2" style={{ fontSize: 20, marginRight: 20, marginLeft: 30 }}>
                         Abstract to upload
                     </Typography>
                     <Button
                         variant="contained"
                         component="label"
-                        style={{ width: 300 }}
+                        style={{ width: 200 }}
+
                     >
                         Choose File
                         <input
@@ -496,38 +507,41 @@ const Form = ({ setFormSubmitted }) => {
                         />
 
                         <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Box style={{ marginRight: 20 }} sx={{ minWidth: 120 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="affiliation">Affiliation</InputLabel>
+                                    <Select
+                                        labelId="affiliation"
+                                        id="demo-simple-select-standard"
+                                        value={secondaryAuthor.affiliation}
+                                        onChange={secondaryAuthonAffiliationHandler}
+                                        label="Affiliation"
+                                        style={{ height: 40 }}
+                                    >
 
-                            <InputLabel id="affiliation">Affiliation</InputLabel>
-                            <Select
-                                labelId="affiliation"
-                                id="demo-simple-select-standard"
-                                value={secondaryAuthor.affiliation}
-                                onChange={secondaryAuthonAffiliationHandler}
-                                label="Affiliation"
-                                style={{ marginInline: 20 }}
-                            >
 
+                                        <MenuItem
+                                            value="University"
+                                            onChange={secondaryAuthonAffiliationHandler}
+                                        >
+                                            University
+                                        </MenuItem>
+                                        <MenuItem
+                                            value="Laboratory"
+                                            onChange={secondaryAuthonAffiliationHandler}
+                                        >
+                                            Laboratory
+                                        </MenuItem>
+                                        <MenuItem
+                                            value="Corporate"
+                                        // onChange={affiliationHandler}
+                                        >
+                                            Corporate
+                                        </MenuItem>
 
-                                <MenuItem
-                                    value="University"
-                                    onChange={secondaryAuthonAffiliationHandler}
-                                >
-                                    University
-                                </MenuItem>
-                                <MenuItem
-                                    value="Laboratory"
-                                    onChange={secondaryAuthonAffiliationHandler}
-                                >
-                                    Laboratory
-                                </MenuItem>
-                                <MenuItem
-                                    value="Corporate"
-                                // onChange={affiliationHandler}
-                                >
-                                    Corporate
-                                </MenuItem>
-
-                            </Select >
+                                    </Select >
+                                </FormControl>
+                            </Box>
                             <Button variant="outlined" startIcon={<AddIcon />} onClick={() => {
                                 if (secondaryAuthorErrorMSG(secondaryAuthor) === "") {
                                     setFormData({ ...formData, secondaryAuthors: [...formData.secondaryAuthors, secondaryAuthor] })
@@ -583,7 +597,7 @@ const Form = ({ setFormSubmitted }) => {
 
             <Button
                 variant="contained"
-                style={{ width: 200 }}
+                style={{ width: 200, marginTop: 25 }}
                 onClick={
                     (e) => {
                         setSubmitClicked(true)
